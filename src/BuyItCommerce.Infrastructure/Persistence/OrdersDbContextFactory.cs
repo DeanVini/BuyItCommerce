@@ -1,3 +1,4 @@
+using BuyItCommerce.Infrastructure.Outbox;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -14,6 +15,6 @@ internal sealed class OrdersDbContextFactory : IDesignTimeDbContextFactory<Order
             .UseSqlServer(connectionString)
             .Options;
 
-        return new OrdersDbContext(options);
+        return new OrdersDbContext(options, new OutboxSignal());
     }
 }
