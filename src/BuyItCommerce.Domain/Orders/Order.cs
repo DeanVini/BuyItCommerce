@@ -10,7 +10,7 @@ public sealed class Order
 
     public Buyer Buyer { get; private set; } = null!;
 
-    public OrderStatus Status { get; private set; }
+    public EOrderStatus Status { get; private set; }
 
     public DateTimeOffset CreatedAt { get; private set; }
 
@@ -28,7 +28,7 @@ public sealed class Order
     {
         Id = id;
         Buyer = buyer;
-        Status = OrderStatus.Iniciado;
+        Status = EOrderStatus.Created;
         CreatedAt = timestamp;
         UpdatedAt = timestamp;
         _items.AddRange(items);
@@ -75,40 +75,40 @@ public sealed class Order
 
     public void Process(DateTimeOffset timestamp)
     {
-        if (Status != OrderStatus.Iniciado)
+        if (Status != EOrderStatus.Created)
         {
-            throw new InvalidOrderTransitionException(Status, OrderStatus.Processado);
+            throw new InvalidOrderTransitionException(Status, EOrderStatus.Processed);
         }
 
-        Status = OrderStatus.Processado;
+        Status = EOrderStatus.Processed;
         UpdatedAt = timestamp;
     }
 
     public void Ship(DateTimeOffset timestamp)
     {
-        if (Status != OrderStatus.Processado)
+        if (Status != EOrderStatus.Processed)
         {
-            throw new InvalidOrderTransitionException(Status, OrderStatus.Enviado);
+            throw new InvalidOrderTransitionException(Status, EOrderStatus.Shipped);
         }
 
-        Status = OrderStatus.Enviado;
+        Status = EOrderStatus.Shipped;
         UpdatedAt = timestamp;
     }
 
     public void Cancel(DateTimeOffset timestamp)
     {
-        if (Status is not (OrderStatus.Iniciado or OrderStatus.Processado))
+        if (Status is not (EOrderStatus.Created or EOrderStatus.Processed))
         {
-            throw new InvalidOrderTransitionException(Status, OrderStatus.Cancelado);
+            throw new InvalidOrderTransitionException(Status, EOrderStatus.Cancelled);
         }
 
-        Status = OrderStatus.Cancelado;
+        Status = EOrderStatus.Cancelled;
         UpdatedAt = timestamp;
     }
 
     private void EnsureMutable(string action)
     {
-        if (Status != OrderStatus.Iniciado)
+        if (Status != EOrderStatus.Created)
         {
             throw new InvalidOrderTransitionException(Status, action);
         }

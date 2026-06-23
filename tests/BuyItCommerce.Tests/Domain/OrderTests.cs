@@ -21,7 +21,7 @@ public class OrderTests
     {
         var order = InitiatedOrder();
 
-        order.Status.Should().Be(OrderStatus.Iniciado);
+        order.Status.Should().Be(EOrderStatus.Created);
         order.Id.Should().NotBe(Guid.Empty);
         order.Items.Should().HaveCount(1);
         order.CreatedAt.Should().Be(Now);
@@ -74,7 +74,7 @@ public class OrderTests
 
         order.Process(Now);
 
-        order.Status.Should().Be(OrderStatus.Processado);
+        order.Status.Should().Be(EOrderStatus.Processed);
     }
 
     [Fact]
@@ -96,7 +96,7 @@ public class OrderTests
 
         order.Ship(Now);
 
-        order.Status.Should().Be(OrderStatus.Enviado);
+        order.Status.Should().Be(EOrderStatus.Shipped);
     }
 
     [Fact]
@@ -116,7 +116,7 @@ public class OrderTests
 
         order.Cancel(Now);
 
-        order.Status.Should().Be(OrderStatus.Cancelado);
+        order.Status.Should().Be(EOrderStatus.Cancelled);
     }
 
     [Fact]
@@ -127,7 +127,7 @@ public class OrderTests
 
         order.Cancel(Now);
 
-        order.Status.Should().Be(OrderStatus.Cancelado);
+        order.Status.Should().Be(EOrderStatus.Cancelled);
     }
 
     [Fact]
