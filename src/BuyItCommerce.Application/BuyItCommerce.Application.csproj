@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\BuyItCommerce.Domain\BuyItCommerce.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
