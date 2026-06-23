@@ -5,12 +5,14 @@ using BuyItCommerce.Application.Abstractions.Outbox;
 using BuyItCommerce.Application.Configuration;
 using BuyItCommerce.Infrastructure.Caching;
 using BuyItCommerce.Infrastructure.Configuration;
+using BuyItCommerce.Infrastructure.Outbox;
 using BuyItCommerce.Infrastructure.Persistence;
 using BuyItCommerce.Infrastructure.Persistence.Repositories;
 using BuyItCommerce.Infrastructure.ReadModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
@@ -53,6 +55,11 @@ public static class DependencyInjection
 
         services.AddMemoryCache();
         services.AddSingleton<ICacheService, MemoryCacheService>();
+
+        services.AddSingleton<OutboxSignal>();
+        services.AddSingleton<IOutboxSignal>(provider => provider.GetRequiredService<OutboxSignal>());
+        services.AddHostedService<OutboxProcessor>();
+        services.AddHostedService<MongoReadModelInitializer>();
 
         return services;
     }
