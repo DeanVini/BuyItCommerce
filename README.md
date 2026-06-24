@@ -88,15 +88,3 @@ dotnet test
 ```
 
 No Visual Studio: **Test → Test Explorer → Run All Tests**.
-
-## Deploy no Coolify (Docker Compose)
-
-1. Publique o repositório em um Git acessível pelo Coolify (GitHub, etc.).
-2. No Coolify: **Projects → + New → Application**, conecte o repositório e a branch `main`.
-3. Em **Build Pack**, selecione **Docker Compose** e aponte para `/docker-compose.yml`.
-4. Em **Environment Variables**, defina `SA_PASSWORD` com uma senha forte.
-5. No serviço `api`, configure o **domínio** e a **porta `8080`**; o health check usa `/health`.
-6. Clique em **Deploy**. O Coolify builda a API, sobe SQL Server e MongoDB (com volumes
-   persistentes) e aplica as migrations no startup.
-
-Os dados persistem entre redeploys através dos volumes `sqlserver-data` e `mongo-data`.
