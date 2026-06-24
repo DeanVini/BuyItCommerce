@@ -41,7 +41,9 @@ public static class DependencyInjection
             .ValidateDataAnnotations();
 
         services.AddDbContext<OrdersDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("SqlServer")));
+            options.UseSqlServer(
+                configuration.GetConnectionString("SqlServer"),
+                sqlServer => sqlServer.EnableRetryOnFailure()));
 
         services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<OrdersDbContext>());
         services.AddScoped<IOrderWriteRepository, EfOrderWriteRepository>();
