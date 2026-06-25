@@ -13,7 +13,7 @@ services:
       Idempotency__KeyExpirationHours: "24"
       Cache__ListingTtlSeconds: "30"
     ports:
-      - "8080:8080"
+      - "1423:8080"
     depends_on:
       sqlserver:
         condition: service_healthy
