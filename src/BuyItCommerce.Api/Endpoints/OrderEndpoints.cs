@@ -75,13 +75,6 @@ internal static class OrderEndpoints
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status409Conflict);
 
-        orders.MapDelete("/{id:guid}", DeleteOrder)
-            .WithName("DeleteOrder")
-            .WithSummary("Exclui (cancela) um pedido.")
-            .Produces<OrderResponse>()
-            .ProducesProblem(StatusCodes.Status404NotFound)
-            .ProducesProblem(StatusCodes.Status409Conflict);
-
         return app;
     }
 
@@ -148,12 +141,6 @@ internal static class OrderEndpoints
     }
 
     private static async Task<IResult> CancelOrder(Guid id, ISender sender, CancellationToken cancellationToken)
-    {
-        var response = await sender.Send(new CancelOrderCommand(id), cancellationToken);
-        return Results.Ok(response);
-    }
-
-    private static async Task<IResult> DeleteOrder(Guid id, ISender sender, CancellationToken cancellationToken)
     {
         var response = await sender.Send(new CancelOrderCommand(id), cancellationToken);
         return Results.Ok(response);
