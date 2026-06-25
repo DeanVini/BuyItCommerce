@@ -7,7 +7,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ConnectionStrings__SqlServer: "Server=sqlserver,1433;Database=BuyItCommerce;User Id=sa;Password=${SA_PASSWORD:-Your_password123};TrustServerCertificate=True;Encrypt=False"
-      ConnectionStrings__MongoDb: "mongodb://mongo:27017"
+      ConnectionStrings__MongoDb: "mongodb://${MONGO_USERNAME:-buyit}:${MONGO_PASSWORD:-Your_password123}@mongo:27017/?authSource=admin"
       Mongo__Database: "buyitcommerce"
       Outbox__PollingIntervalSeconds: "5"
       Idempotency__KeyExpirationHours: "24"
@@ -42,6 +42,9 @@ services:
     restart: unless-stopped
     ports:
       - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${MONGO_USERNAME:-buyit}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_PASSWORD:-Your_password123}"
     healthcheck:
       test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
       interval: 10s
