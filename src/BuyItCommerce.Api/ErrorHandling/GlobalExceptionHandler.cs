@@ -53,6 +53,7 @@ internal sealed class GlobalExceptionHandler(
     private static (int StatusCode, string Title) Map(Exception exception) => exception switch
     {
         ValidationException => (StatusCodes.Status400BadRequest, "Erro de validação"),
+        BadHttpRequestException => (StatusCodes.Status400BadRequest, "Requisição inválida"),
         OrderNotFoundException => (StatusCodes.Status404NotFound, "Recurso não encontrado"),
         IdempotencyConflictException => (StatusCodes.Status409Conflict, "Conflito de idempotência"),
         InvalidOrderTransitionException => (StatusCodes.Status409Conflict, "Transição de status inválida"),
