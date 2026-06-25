@@ -7,10 +7,14 @@ public sealed class UpdateOrderCommandValidator : AbstractValidator<UpdateOrderC
 {
     public UpdateOrderCommandValidator()
     {
-        RuleFor(command => command.OrderId).NotEmpty();
-        RuleFor(command => command.BuyerId).NotEmpty();
-        RuleFor(command => command.BuyerName).NotEmpty();
-        RuleFor(command => command.Items).NotEmpty();
+        RuleFor(command => command.OrderId)
+            .NotEmpty().WithMessage("É obrigatório enviar o OrderId");
+        RuleFor(command => command.BuyerId)
+            .NotEmpty().WithMessage("É obrigatório enviar o BuyerId");
+        RuleFor(command => command.BuyerName)
+            .NotEmpty().WithMessage("É obrigatório enviar o BuyerName");
+        RuleFor(command => command.Items)
+            .NotEmpty().WithMessage("O pedido deve conter ao menos um item");
         RuleForEach(command => command.Items).SetValidator(new OrderItemInputValidator());
     }
 }
